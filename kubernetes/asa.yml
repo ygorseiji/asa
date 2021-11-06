@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asa
+spec:
+  selector:
+    matchLabels:
+      app: asa
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: asa
+    spec:
+      containers:
+        - name: asa
+          image: asa:0.0.1
+          imagePullPolicy: "Never"
+          ports:
+            - containerPort: 5000
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: asa
+spec:
+  selector:
+    app: asa
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000
+  type: NodePort
